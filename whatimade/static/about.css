@@ -1,0 +1,30 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: black;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1, h3 {
+    color: red;
+}
+h1 {
+    color: red;
+    font-size: 4em;
+}
+p {
+    margin-bottom: 1em;
+}
+
+.mission {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+.mission h2 {
+    color: red;
+}

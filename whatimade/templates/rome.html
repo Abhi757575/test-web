@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReviewNet - 1984 Reviews</title>
+    <link rel="stylesheet" href="/static/style1.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/neon.css">
+    <link rel="stylesheet" href="/static/demo.css">
+    <link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    {% include 'navbar.html' %} <!-- Assuming your navigation is reusable -->
+
+    <section class="newsletter">
+        <div class="book-showcase">
+            <div class="book-card">
+                <div class="book-overlay"></div>
+                <div class="book-image">
+                    <img src="https://m.media-amazon.com/images/I/818bGgNn0EL._SL1500_.jpg" alt="1984">
+                </div>
+                <div class="book-content">
+                    <h3>1984</h3>
+                    <p class="author">by George Orwell</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span>5/5</span>
+                    </div>
+                    <p class="description">A dystopian masterpiece exploring themes of totalitarianism, surveillance, and the power of language to shape thought and reality.</p>
+
+                    {% if current_user.is_authenticated %}
+                    <div class="formed">
+                        <form method="POST" action="{{ url_for('demo') }}">
+                            <h2>Post Your Review:</h2>
+                            <textarea name="review_content" class="form-control" rows="4" placeholder="Write your review..." required></textarea>
+                            <br>
+                            <button type="submit" name="new_review" class="btn btn-primary">Post Review</button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <p><a href="{{ url_for('login') }}">Log in</a> to post a review.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-container">
+            <h2>All Reviews</h2>
+            {% for review in reviews %}
+            <div class="review-box">
+                <p><strong>{{ review.author.username }}</strong> says:</p>
+                <p>{{ review.content }}</p>
+
+                <div class="comments-section">
+                    <h4>Comments:</h4>
+                    {% for comment in review.comments %}
+                        <div class="comment">
+                            <p><strong>{{ comment.author.username }}</strong>: {{ comment.content }}</p>
+                        </div>
+                    {% endfor %}
+
+                    {% if current_user.is_authenticated %}
+                    <form method="POST" action="{{ url_for('demo') }}">
+                        <input type="hidden" name="review_id" value="{{ review.id }}">
+                        <input type="text" name="comment_content" placeholder="Write a comment..." required>
+                        <button type="submit" name="new_comment" class="btn btn-secondary">Comment</button>
+                    </form>
+                    {% else %}
+                    <p><a href="{{ url_for('login') }}">Log in</a> to comment.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% include 'footer.html' %}
+</body>
+</html>
+
